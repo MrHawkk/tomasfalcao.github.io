@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           start: "top top",
 
-          end: "+=300%",
+          end: "+=150%",
 
           pin: true,
 
@@ -386,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         y: 80,
 
-        opacity: 0
+        opacity: 1
 
       },
 
@@ -1454,7 +1454,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "top top",
 
           end:
-            "+=300%",
+            "+=150%",
 
           pin:
             true,
