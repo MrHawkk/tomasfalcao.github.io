@@ -1832,6 +1832,53 @@ p {
 }
 
 
+@media (max-width: 800px) {
+
+  .work {
+
+    height: auto;
+
+    overflow: visible;
+
+  }
+
+  .work-header {
+
+    position: relative;
+
+    top: auto;
+    left: auto;
+    right: auto;
+
+    padding:
+      34px
+      var(--gutter)
+      20px;
+
+  }
+
+  .work-track {
+
+    flex-direction: column;
+
+    width: 100%;
+
+    height: auto;
+
+  }
+
+  .project {
+
+    flex: none;
+
+    width: 100%;
+    min-width: 0;
+
+  }
+
+}
+
+
 @media (max-width: 600px) {
 
   .topbar {

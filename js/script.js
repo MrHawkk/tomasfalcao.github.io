@@ -131,10 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { passive: true }
   );
 
+
   window.addEventListener(
     "resize",
     updateResponsiveMenu
   );
+
 
   updateResponsiveMenu();
 
@@ -352,123 +354,336 @@ document.addEventListener("DOMContentLoaded", () => {
     textTwo
   ) {
 
-    const introTl =
-      gsap.timeline({
-
-        scrollTrigger: {
-
-          trigger: intro,
-
-          start: "top top",
-
-          end: "+=150%",
-
-          pin: true,
-
-          pinSpacing: true,
-
-          scrub: 1,
-
-          anticipatePin: 1,
-
-          invalidateOnRefresh: true
-
-        }
-
-      });
+    const introMM =
+      gsap.matchMedia();
 
 
-    introTl.fromTo(
+    /* =================================
+       INTRO MOBILE
+       <= 800px
 
-      textOne,
+       Sem pin
+       Sem scrub
+       Executa uma vez
+    ================================= */
 
-      {
+    introMM.add(
+      "(max-width: 800px)",
+      () => {
 
-        y: 80,
+        gsap.set(
+          textOne,
+          {
+            y: 80,
+            opacity: 0
+          }
+        );
 
-        opacity: 1
 
-      },
+        gsap.set(
+          textTwo,
+          {
+            y: 80,
+            opacity: 0
+          }
+        );
 
-      {
 
-        y: 0,
+        const introMobileTl =
+          gsap.timeline({
 
-        opacity: 1,
+            scrollTrigger: {
 
-        duration: 1,
+              trigger:
+                intro,
 
-        ease: "power2.out"
+              start:
+                "top 80%",
+
+              toggleActions:
+                "play none none none",
+
+              once:
+                true
+
+            }
+
+          });
+
+
+        introMobileTl.to(
+
+          textOne,
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 0.7,
+
+            ease:
+              "power3.out"
+
+          }
+
+        );
+
+
+        introMobileTl.to(
+
+          textOne,
+
+          {
+
+            y: -40,
+
+            opacity: 0,
+
+            duration: 0.5,
+
+            ease:
+              "power2.in"
+
+          },
+
+          "+=0.7"
+
+        );
+
+
+        introMobileTl.fromTo(
+
+          textTwo,
+
+          {
+
+            y: 50,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 0.7,
+
+            ease:
+              "power3.out"
+
+          },
+
+          "-=0.2"
+
+        );
+
+
+        introMobileTl.to(
+
+          textTwo,
+
+          {
+
+            y: -30,
+
+            opacity: 0,
+
+            duration: 0.5,
+
+            ease:
+              "power2.in"
+
+          },
+
+          "+=0.7"
+
+        );
+
+
+        return () => {
+
+          introMobileTl.kill();
+
+        };
 
       }
-
     );
 
 
-    introTl.to(
+    /* =================================
+       INTRO DESKTOP
+       > 800px
 
-      textOne,
+       Mantém o comportamento
+       original com scrub + pin
+    ================================= */
 
-      {
+    introMM.add(
+      "(min-width: 801px)",
+      () => {
 
-        y: -120,
+        gsap.set(
+          textOne,
+          {
+            y: 80,
+            opacity: 0
+          }
+        );
 
-        opacity: 0,
 
-        duration: 1,
+        gsap.set(
+          textTwo,
+          {
+            y: 120,
+            opacity: 0
+          }
+        );
 
-        ease: "power2.in"
+
+        const introDesktopTl =
+          gsap.timeline({
+
+            scrollTrigger: {
+
+              trigger:
+                intro,
+
+              start:
+                "top top",
+
+              end:
+                "+=300%",
+
+              pin:
+                true,
+
+              pinSpacing:
+                true,
+
+              scrub:
+                1,
+
+              anticipatePin:
+                1,
+
+              invalidateOnRefresh:
+                true
+
+            }
+
+          });
+
+
+        introDesktopTl.fromTo(
+
+          textOne,
+
+          {
+
+            y: 80,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 1,
+
+            ease:
+              "power2.out"
+
+          }
+
+        );
+
+
+        introDesktopTl.to(
+
+          textOne,
+
+          {
+
+            y: -120,
+
+            opacity: 0,
+
+            duration: 1,
+
+            ease:
+              "power2.in"
+
+          }
+
+        );
+
+
+        introDesktopTl.fromTo(
+
+          textTwo,
+
+          {
+
+            y: 120,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 1,
+
+            ease:
+              "power2.out"
+
+          },
+
+          "-=0.5"
+
+        );
+
+
+        introDesktopTl.to(
+
+          textTwo,
+
+          {
+
+            y: -80,
+
+            opacity: 0,
+
+            duration: 1,
+
+            ease:
+              "power2.in"
+
+          }
+
+        );
+
+
+        return () => {
+
+          introDesktopTl.kill();
+
+        };
 
       }
-
-    );
-
-
-    introTl.fromTo(
-
-      textTwo,
-
-      {
-
-        y: 120,
-
-        opacity: 0
-
-      },
-
-      {
-
-        y: 0,
-
-        opacity: 1,
-
-        duration: 1,
-
-        ease: "power2.out"
-
-      },
-
-      "-=0.5"
-
-    );
-
-
-    introTl.to(
-
-      textTwo,
-
-      {
-
-        y: -80,
-
-        opacity: 0,
-
-        duration: 1,
-
-        ease: "power2.in"
-
-      }
-
     );
 
   }
@@ -479,55 +694,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ================================= */
 
   if (summary) {
-
-    gsap.set(
-      summaryImage,
-      {
-
-        y: 100,
-
-        opacity: 0
-
-      }
-    );
-
-
-    gsap.set(
-      summaryImagePlaceholder,
-      {
-
-        clipPath:
-          "inset(100% 0% 0% 0%)"
-
-      }
-    );
-
-
-    gsap.set(
-      summaryImageBorder,
-      {
-
-        x: -30,
-
-        y: -30,
-
-        opacity: 0
-
-      }
-    );
-
-
-    gsap.set(
-      summaryParagraphs,
-      {
-
-        y: 50,
-
-        opacity: 0
-
-      }
-    );
-
 
     const summaryTitle =
       document.querySelector(
@@ -541,193 +707,566 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
-    if (summaryTitle) {
-
-      gsap.set(
-        summaryTitle,
-        {
-
-          y: 50,
-
-          opacity: 0
-
-        }
-      );
-
-    }
+    const summaryMM =
+      gsap.matchMedia();
 
 
-    if (summaryKicker) {
+    /* =================================
+       SUMMARY MOBILE
+       <= 800px
 
-      gsap.set(
-        summaryKicker,
-        {
+       Uma única animação.
+       Sem scrub.
+       Sem pin.
+    ================================= */
 
-          y: 20,
+    summaryMM.add(
+      "(max-width: 800px)",
+      () => {
 
-          opacity: 0
+        if (summaryImage) {
 
-        }
-      );
+          gsap.set(
+            summaryImage,
+            {
 
-    }
+              y: 80,
 
+              opacity: 0
 
-    const summaryTl =
-      gsap.timeline({
-
-        scrollTrigger: {
-
-          trigger: summary,
-
-          start: "top top",
-
-          end: "+=300%",
-
-          pin: true,
-
-          scrub: 1,
-
-          anticipatePin: 1,
-
-          invalidateOnRefresh: true
+            }
+          );
 
         }
 
-      });
+
+        if (
+          summaryImagePlaceholder
+        ) {
+
+          gsap.set(
+
+            summaryImagePlaceholder,
+
+            {
+
+              clipPath:
+                "inset(100% 0% 0% 0%)"
+
+            }
+
+          );
+
+        }
 
 
-    summaryTl.to(
-      summary,
-      {
+        if (summaryImageBorder) {
 
-        backgroundColor:
-          "#16011c",
+          gsap.set(
 
-        duration: 1.5,
+            summaryImageBorder,
 
-        ease: "power2.out"
+            {
+
+              x: -20,
+
+              y: -20,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
+
+
+        if (
+          summaryParagraphs.length
+        ) {
+
+          gsap.set(
+
+            summaryParagraphs,
+
+            {
+
+              y: 35,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
+
+
+        if (summaryTitle) {
+
+          gsap.set(
+
+            summaryTitle,
+
+            {
+
+              y: 40,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
+
+
+        if (summaryKicker) {
+
+          gsap.set(
+
+            summaryKicker,
+
+            {
+
+              y: 20,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
+
+
+        const summaryMobileTl =
+          gsap.timeline({
+
+            scrollTrigger: {
+
+              trigger:
+                summary,
+
+              start:
+                "top 80%",
+
+              toggleActions:
+                "play none none none",
+
+              once:
+                true
+
+            }
+
+          });
+
+
+        summaryMobileTl.to(
+
+          summary,
+
+          {
+
+            backgroundColor:
+              "#16011c",
+
+            duration:
+              0.4,
+
+            ease:
+              "power2.out"
+
+          }
+
+        );
+
+
+        if (summaryKicker) {
+
+          summaryMobileTl.to(
+
+            summaryKicker,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.35,
+
+              ease:
+                "power3.out"
+
+            },
+
+            "-=0.1"
+
+          );
+
+        }
+
+
+        if (summaryTitle) {
+
+          summaryMobileTl.to(
+
+            summaryTitle,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.45,
+
+              ease:
+                "power3.out"
+
+            },
+
+            "-=0.15"
+
+          );
+
+        }
+
+
+        if (summaryImage) {
+
+          summaryMobileTl.to(
+
+            summaryImage,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.45,
+
+              ease:
+                "power3.out"
+
+            },
+
+            "-=0.2"
+
+          );
+
+        }
+
+
+        if (
+          summaryImagePlaceholder
+        ) {
+
+          summaryMobileTl.to(
+
+            summaryImagePlaceholder,
+
+            {
+
+              clipPath:
+                "inset(0% 0% 0% 0%)",
+
+              duration:
+                0.45,
+
+              ease:
+                "power2.inOut"
+
+            },
+
+            "-=0.3"
+
+          );
+
+        }
+
+
+        if (summaryImageBorder) {
+
+          summaryMobileTl.to(
+
+            summaryImageBorder,
+
+            {
+
+              x: 0,
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.35,
+
+              ease:
+                "power3.out"
+
+            },
+
+            "-=0.25"
+
+          );
+
+        }
+
+
+        if (
+          summaryParagraphs.length
+        ) {
+
+          summaryMobileTl.to(
+
+            summaryParagraphs,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.35,
+
+              ease:
+                "power3.out",
+
+              stagger:
+                0.08
+
+            },
+
+            "-=0.15"
+
+          );
+
+        }
+
+
+        return () => {
+
+          summaryMobileTl.kill();
+
+        };
 
       }
     );
 
 
-    if (summaryKicker) {
+    /* =================================
+       SUMMARY DESKTOP
+       > 800px
 
-      summaryTl.to(
+       Mantém o comportamento
+       original com scrub + pin
+    ================================= */
 
-        summaryKicker,
+    summaryMM.add(
+      "(min-width: 801px)",
+      () => {
 
-        {
+        gsap.set(
+          summaryImage,
+          {
 
-          y: 0,
+            y: 100,
 
-          opacity: 1,
+            opacity: 0
 
-          duration: 0.7,
+          }
+        );
 
-          ease: "power3.out"
+
+        gsap.set(
+          summaryImagePlaceholder,
+          {
+
+            clipPath:
+              "inset(100% 0% 0% 0%)"
+
+          }
+        );
+
+
+        gsap.set(
+          summaryImageBorder,
+          {
+
+            x: -30,
+
+            y: -30,
+
+            opacity: 0
+
+          }
+        );
+
+
+        gsap.set(
+          summaryParagraphs,
+          {
+
+            y: 50,
+
+            opacity: 0
+
+          }
+        );
+
+
+        if (summaryTitle) {
+
+          gsap.set(
+
+            summaryTitle,
+
+            {
+
+              y: 50,
+
+              opacity: 0
+
+            }
+
+          );
 
         }
 
-      );
 
-    }
+        if (summaryKicker) {
 
+          gsap.set(
 
-    if (summaryTitle) {
+            summaryKicker,
 
-      summaryTl.to(
+            {
 
-        summaryTitle,
+              y: 20,
 
-        {
+              opacity: 0
 
-          y: 0,
+            }
 
-          opacity: 1,
+          );
 
-          duration: 1,
-
-          ease: "power3.out"
-
-        },
-
-        "-=0.4"
-
-      );
-
-    }
+        }
 
 
-    summaryTl.to(
+        const summaryDesktopTl =
+          gsap.timeline({
 
-      summaryImage,
+            scrollTrigger: {
 
-      {
+              trigger:
+                summary,
 
-        y: 0,
+              start:
+                "top top",
 
-        opacity: 1,
+              end:
+                "+=300%",
 
-        duration: 1,
+              pin:
+                true,
 
-        ease: "power2.out"
+              scrub:
+                1,
 
-      },
+              anticipatePin:
+                1,
 
-      "-=0.5"
+              invalidateOnRefresh:
+                true
 
-    );
+            }
 
-
-    summaryTl.to(
-
-      summaryImagePlaceholder,
-
-      {
-
-        clipPath:
-          "inset(0% 0% 0% 0%)",
-
-        duration: 1,
-
-        ease: "power2.inOut"
-
-      }
-
-    );
+          });
 
 
-    summaryTl.to(
+        summaryDesktopTl.to(
 
-      summaryImageBorder,
+          summary,
 
-      {
+          {
 
-        x: 0,
+            backgroundColor:
+              "#16011c",
 
-        y: 0,
+            duration:
+              1.5,
 
-        opacity: 1,
+            ease:
+              "power2.out"
 
-        duration: 1,
+          }
 
-        ease: "power3.out"
-
-      },
-
-      "-=0.8"
-
-    );
+        );
 
 
-    summaryParagraphs.forEach(
-      (paragraph, index) => {
+        if (summaryKicker) {
 
-        summaryTl.to(
+          summaryDesktopTl.to(
 
-          paragraph,
+            summaryKicker,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.7,
+
+              ease:
+                "power3.out"
+
+            }
+
+          );
+
+        }
+
+
+        if (summaryTitle) {
+
+          summaryDesktopTl.to(
+
+            summaryTitle,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                1,
+
+              ease:
+                "power3.out"
+
+            },
+
+            "-=0.4"
+
+          );
+
+        }
+
+
+        summaryDesktopTl.to(
+
+          summaryImage,
 
           {
 
@@ -735,17 +1274,100 @@ document.addEventListener("DOMContentLoaded", () => {
 
             opacity: 1,
 
-            duration: 0.8,
+            duration:
+              1,
 
-            ease: "power3.out"
+            ease:
+              "power2.out"
 
           },
 
-          index === 0
-            ? "-=0.4"
-            : "-=0.55"
+          "-=0.5"
 
         );
+
+
+        summaryDesktopTl.to(
+
+          summaryImagePlaceholder,
+
+          {
+
+            clipPath:
+              "inset(0% 0% 0% 0%)",
+
+            duration:
+              1,
+
+            ease:
+              "power2.inOut"
+
+          }
+
+        );
+
+
+        summaryDesktopTl.to(
+
+          summaryImageBorder,
+
+          {
+
+            x: 0,
+
+            y: 0,
+
+            opacity: 1,
+
+            duration:
+              1,
+
+            ease:
+              "power3.out"
+
+          },
+
+          "-=0.8"
+
+        );
+
+
+        summaryParagraphs.forEach(
+          (paragraph, index) => {
+
+            summaryDesktopTl.to(
+
+              paragraph,
+
+              {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration:
+                  0.8,
+
+                ease:
+                  "power3.out"
+
+              },
+
+              index === 0
+                ? "-=0.4"
+                : "-=0.55"
+
+            );
+
+          }
+        );
+
+
+        return () => {
+
+          summaryDesktopTl.kill();
+
+        };
 
       }
     );
@@ -755,6 +1377,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =================================
      PROJECT INITIAL STATES
+     DESKTOP ONLY
+     > 800px
   ================================= */
 
   function prepareProject(
@@ -912,15 +1536,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
   }
-
-
-  projects.forEach(
-    (project) => {
-
-      prepareProject(project);
-
-    }
-  );
 
 
   /* =================================
@@ -1126,194 +1741,752 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =================================
-     HORIZONTAL PROJECT SCROLL
+     MOBILE PROJECT ANIMATION
+     <= 800px
+
+     Sem horizontal scroll.
+     Sem scrub.
+     Cada projeto anima uma vez.
   ================================= */
 
-  let workTrigger = null;
+  const projectMobileMM =
+    gsap.matchMedia();
 
 
-  if (
-    work &&
-    workTrack &&
-    projects.length
-  ) {
+  projectMobileMM.add(
+    "(max-width: 800px)",
+    () => {
 
-    const getScrollAmount =
-      () => {
+      if (!projects.length) {
+        return;
+      }
 
-        return Math.max(
 
-          0,
+      const mobileProjectTriggers =
+        [];
 
-          workTrack.scrollWidth -
-          work.clientWidth
 
+      projects.forEach(
+        (project) => {
+
+          const imageOne =
+            project.querySelector(
+              ".project-image-one"
+            );
+
+          const imageTwo =
+            project.querySelector(
+              ".project-image-two"
+            );
+
+          const title =
+            project.querySelector(
+              ".project-title"
+            );
+
+          const description =
+            project.querySelector(
+              ".project-description"
+            );
+
+          const meta =
+            project.querySelector(
+              ".project-meta"
+            );
+
+          const tools =
+            project.querySelector(
+              ".project-tools"
+            );
+
+
+          /*
+             Estado inicial mobile.
+             Valores menores para evitar
+             animações pesadas.
+          */
+
+          if (imageOne) {
+
+            gsap.set(
+              imageOne,
+              {
+                opacity: 0,
+                y: -30,
+                x: -20
+              }
+            );
+
+          }
+
+
+          if (imageTwo) {
+
+            gsap.set(
+              imageTwo,
+              {
+                opacity: 0,
+                y: 30,
+                x: 20
+              }
+            );
+
+          }
+
+
+          if (title) {
+
+            gsap.set(
+              title,
+              {
+                opacity: 0,
+                scale: 0.96,
+                y: 20
+              }
+            );
+
+          }
+
+
+          if (description) {
+
+            gsap.set(
+              description,
+              {
+                opacity: 0,
+                x: 20
+              }
+            );
+
+          }
+
+
+          if (meta) {
+
+            gsap.set(
+              meta,
+              {
+                opacity: 0,
+                y: -10
+              }
+            );
+
+          }
+
+
+          if (tools) {
+
+            gsap.set(
+              tools,
+              {
+                opacity: 0,
+                y: 10
+              }
+            );
+
+          }
+
+
+          const mobileProjectTl =
+            gsap.timeline({
+
+              paused:
+                true
+
+            });
+
+
+          if (meta) {
+
+            mobileProjectTl.to(
+
+              meta,
+
+              {
+
+                opacity: 1,
+
+                y: 0,
+
+                duration:
+                  0.3,
+
+                ease:
+                  "power2.out"
+
+              }
+
+            );
+
+          }
+
+
+          if (imageOne) {
+
+            mobileProjectTl.to(
+
+              imageOne,
+
+              {
+
+                opacity: 1,
+
+                x: 0,
+
+                y: 0,
+
+                duration:
+                  0.55,
+
+                ease:
+                  "power3.out"
+
+              },
+
+              "-=0.1"
+
+            );
+
+          }
+
+
+          if (imageTwo) {
+
+            mobileProjectTl.to(
+
+              imageTwo,
+
+              {
+
+                opacity: 1,
+
+                x: 0,
+
+                y: 0,
+
+                duration:
+                  0.55,
+
+                ease:
+                  "power3.out"
+
+              },
+
+              "-=0.4"
+
+            );
+
+          }
+
+
+          if (title) {
+
+            mobileProjectTl.to(
+
+              title,
+
+              {
+
+                opacity: 1,
+
+                scale: 1,
+
+                y: 0,
+
+                duration:
+                  0.45,
+
+                ease:
+                  "power3.out"
+
+              },
+
+              "-=0.3"
+
+            );
+
+          }
+
+
+          if (description) {
+
+            mobileProjectTl.to(
+
+              description,
+
+              {
+
+                opacity: 1,
+
+                x: 0,
+
+                duration:
+                  0.4,
+
+                ease:
+                  "power3.out"
+
+              },
+
+              "-=0.25"
+
+            );
+
+          }
+
+
+          if (tools) {
+
+            mobileProjectTl.to(
+
+              tools,
+
+              {
+
+                opacity: 1,
+
+                y: 0,
+
+                duration:
+                  0.3,
+
+                ease:
+                  "power2.out"
+
+              },
+
+              "-=0.2"
+
+            );
+
+          }
+
+
+          /*
+             O ScrollTrigger apenas detecta
+             quando o projeto entra no viewport.
+
+             Não existe scrub.
+             A timeline toca sozinha.
+          */
+
+          const trigger =
+            ScrollTrigger.create({
+
+              trigger:
+                project,
+
+              start:
+                "top 85%",
+
+              once:
+                true,
+
+              onEnter:
+                () => {
+
+                  mobileProjectTl.play();
+
+                }
+
+            });
+
+
+          mobileProjectTriggers.push({
+
+            trigger,
+
+            timeline:
+              mobileProjectTl
+
+          });
+
+        }
+      );
+
+
+      return () => {
+
+        mobileProjectTriggers.forEach(
+          (item) => {
+
+            item.trigger.kill();
+
+            item.timeline.kill();
+
+          }
+        );
+
+
+        /*
+           Limpa os transforms para quando
+           voltarmos ao desktop.
+        */
+
+        projects.forEach(
+          (project) => {
+
+            const elements =
+              project.querySelectorAll(
+                ".project-image-one, " +
+                ".project-image-two, " +
+                ".project-title, " +
+                ".project-description, " +
+                ".project-meta, " +
+                ".project-tools"
+              );
+
+
+            gsap.killTweensOf(
+              elements
+            );
+
+
+            gsap.set(
+              elements,
+              {
+                clearProps:
+                  "opacity,transform"
+              }
+            );
+
+          }
         );
 
       };
 
-
-    const workTimeline =
-      gsap.timeline({
-
-        defaults: {
-
-          ease: "none"
-
-        }
-
-      });
+    }
+  );
 
 
-    projects.forEach(
-      (project, index) => {
+  /* =================================
+     HORIZONTAL PROJECT SCROLL
+     DESKTOP ONLY
+     > 800px
+  ================================= */
 
-        const projectAnimation =
-          createProjectAnimation(
+  let workTrigger = null;
+
+  let workTimeline = null;
+
+
+  const workMM =
+    gsap.matchMedia();
+
+
+  workMM.add(
+    "(min-width: 801px)",
+    () => {
+
+      if (
+        !work ||
+        !workTrack ||
+        !projects.length
+      ) {
+
+        return;
+
+      }
+
+
+      /* =================================
+         INITIAL PROJECT STATES
+      ================================= */
+
+      projects.forEach(
+        (project) => {
+
+          prepareProject(
             project
           );
 
-
-        workTimeline.add(
-          projectAnimation
-        );
+        }
+      );
 
 
-        workTimeline.to(
+      /* =================================
+         SCROLL AMOUNT
+      ================================= */
 
-          {},
+      const getScrollAmount =
+        () => {
 
-          {
+          return Math.max(
 
-            duration: 0.35
+            0,
+
+            workTrack.scrollWidth -
+            work.clientWidth
+
+          );
+
+        };
+
+
+      /* =================================
+         WORK TIMELINE
+      ================================= */
+
+      workTimeline =
+        gsap.timeline({
+
+          defaults: {
+
+            ease: "none"
 
           }
 
-        );
+        });
 
 
-        if (
-          index <
-          projects.length - 1
-        ) {
+      projects.forEach(
+        (project, index) => {
+
+          const projectAnimation =
+            createProjectAnimation(
+              project
+            );
+
+
+          /*
+             A animação original dos
+             projetos continua ligada ao
+             horizontal scroll no desktop.
+          */
+
+          workTimeline.add(
+            projectAnimation
+          );
+
 
           workTimeline.to(
 
-            workTrack,
+            {},
 
             {
 
-              x: () => {
-
-                const amount =
-                  getScrollAmount();
-
-                const progress =
-                  (index + 1) /
-                  (projects.length - 1);
-
-                return (
-                  -amount *
-                  progress
-                );
-
-              },
-
-              duration: 1.4,
-
-              ease:
-                "power2.inOut"
+              duration:
+                0.35
 
             }
 
           );
 
+
+          if (
+            index <
+            projects.length - 1
+          ) {
+
+            workTimeline.to(
+
+              workTrack,
+
+              {
+
+                x: () => {
+
+                  const amount =
+                    getScrollAmount();
+
+
+                  const progress =
+                    (index + 1) /
+                    (projects.length - 1);
+
+
+                  return (
+                    -amount *
+                    progress
+                  );
+
+                },
+
+                duration:
+                  1.4,
+
+                ease:
+                  "power2.inOut"
+
+              }
+
+            );
+
+          }
+
         }
-
-      }
-    );
-
-
-    workTrigger =
-      ScrollTrigger.create({
-
-        trigger: work,
-
-        start: "top top",
-
-        end: () => {
-
-          const projectSpace =
-            window.innerHeight *
-            1.8;
-
-          return (
-            "+=" +
-            (
-              projectSpace *
-              projects.length
-            )
-          );
-
-        },
-
-        pin: true,
-
-        scrub: 1,
-
-        animation:
-          workTimeline,
-
-        anticipatePin: 1,
-
-        invalidateOnRefresh: true
-
-      });
-
-
-    /* =================================
-       PROJECT COUNTER
-    ================================= */
-
-    const currentCounter =
-      document.querySelector(
-        ".work-progress-current"
       );
 
 
-    if (currentCounter) {
+      /* =================================
+         SCROLLTRIGGER
+      ================================= */
 
-      workTrigger.animation
-        .eventCallback(
-          "onUpdate",
-          () => {
+      workTrigger =
+        ScrollTrigger.create({
 
-            const progress =
-              workTrigger.progress;
+          trigger:
+            work,
 
-            const project =
-              Math.min(
+          start:
+            "top top",
 
-                projects.length,
+          end: () => {
 
-                Math.floor(
-                  progress *
-                  projects.length
-                ) + 1
+            const projectSpace =
+              window.innerHeight *
+              1.8;
 
+
+            return (
+              "+=" +
+              (
+                projectSpace *
+                projects.length
+              )
+            );
+
+          },
+
+          pin:
+            true,
+
+          scrub:
+            1,
+
+          animation:
+            workTimeline,
+
+          anticipatePin:
+            1,
+
+          invalidateOnRefresh:
+            true
+
+        });
+
+
+      /* =================================
+         PROJECT COUNTER
+      ================================= */
+
+      const currentCounter =
+        document.querySelector(
+          ".work-progress-current"
+        );
+
+
+      if (currentCounter) {
+
+        workTrigger.animation
+          .eventCallback(
+            "onUpdate",
+            () => {
+
+              const progress =
+                workTrigger.progress;
+
+
+              const project =
+                Math.min(
+
+                  projects.length,
+
+                  Math.floor(
+                    progress *
+                    projects.length
+                  ) + 1
+
+                );
+
+
+              currentCounter.textContent =
+                String(project)
+                  .padStart(2, "0");
+
+            }
+          );
+
+      }
+
+
+      /* =================================
+         CLEANUP
+      ================================= */
+
+      return () => {
+
+        if (workTrigger) {
+
+          workTrigger.kill();
+
+          workTrigger = null;
+
+        }
+
+
+        if (workTimeline) {
+
+          workTimeline.kill();
+
+          workTimeline = null;
+
+        }
+
+
+        gsap.killTweensOf(
+          workTrack
+        );
+
+
+        gsap.set(
+          workTrack,
+          {
+            clearProps:
+              "transform"
+          }
+        );
+
+
+        /*
+           Limpa os estados dos projetos
+           quando saímos do desktop.
+        */
+
+        projects.forEach(
+          (project) => {
+
+            const elements =
+              project.querySelectorAll(
+                ".project-image-one, " +
+                ".project-image-two, " +
+                ".project-title, " +
+                ".project-description, " +
+                ".project-meta, " +
+                ".project-tools"
               );
 
 
-            currentCounter.textContent =
-              String(project)
-                .padStart(2, "0");
+            gsap.killTweensOf(
+              elements
+            );
+
+
+            gsap.set(
+              elements,
+              {
+                clearProps:
+                  "opacity,transform"
+              }
+            );
 
           }
         );
 
-    }
+      };
 
-  }
+    }
+  );
 
 
   /* =================================
@@ -1325,14 +2498,14 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.search
     );
 
+
   const target =
     urlParams.get("target");
 
 
   if (
     target === "projects" &&
-    work &&
-    workTrigger
+    work
   ) {
 
     window.addEventListener(
@@ -1345,25 +2518,24 @@ document.addEventListener("DOMContentLoaded", () => {
             ScrollTrigger.refresh();
 
 
-            /*
-              Encontramos o início real
-              do ScrollTrigger do WORK.
-            */
+            if (
+              window.innerWidth > 800 &&
+              workTrigger
+            ) {
 
-            const workStart =
-              workTrigger.start;
+              smoother.scrollTo(
+                workTrigger.start,
+                true
+              );
 
+            } else {
 
-            /*
-              ScrollSmoother vai diretamente
-              para a posição do ScrollTrigger.
-            */
+              smoother.scrollTo(
+                work,
+                true
+              );
 
-            smoother.scrollTo(
-              workStart,
-              true
-            );
-
+            }
 
           },
           500
@@ -1412,165 +2584,344 @@ document.addEventListener("DOMContentLoaded", () => {
     contactCtaTextTwo
   ) {
 
-    gsap.set(
+    const contactMM =
+      gsap.matchMedia();
 
-      contactCtaTextOne,
 
-      {
+    /* =================================
+       CONTACT MOBILE
+       <= 800px
 
-        y: 80,
+       Sem pin.
+       Sem scrub.
+       Uma única execução.
+    ================================= */
 
-        opacity: 0
+    contactMM.add(
+      "(max-width: 800px)",
+      () => {
+
+        gsap.set(
+
+          contactCtaTextOne,
+
+          {
+
+            y: 50,
+
+            opacity: 0
+
+          }
+
+        );
+
+
+        gsap.set(
+
+          contactCtaTextTwo,
+
+          {
+
+            y: 50,
+
+            opacity: 0
+
+          }
+
+        );
+
+
+        const contactMobileTl =
+          gsap.timeline({
+
+            scrollTrigger: {
+
+              trigger:
+                contactCta,
+
+              start:
+                "top 80%",
+
+              toggleActions:
+                "play none none none",
+
+              once:
+                true
+
+            }
+
+          });
+
+
+        contactMobileTl.to(
+
+          contactCtaTextOne,
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration:
+              0.6,
+
+            ease:
+              "power3.out"
+
+          }
+
+        );
+
+
+        contactMobileTl.to(
+
+          contactCtaTextOne,
+
+          {
+
+            y: -30,
+
+            opacity: 0,
+
+            duration:
+              0.45,
+
+            ease:
+              "power2.in"
+
+          },
+
+          "+=0.8"
+
+        );
+
+
+        contactMobileTl.fromTo(
+
+          contactCtaTextTwo,
+
+          {
+
+            y: 40,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration:
+              0.6,
+
+            ease:
+              "power3.out"
+
+          },
+
+          "-=0.15"
+
+        );
+
+
+        return () => {
+
+          contactMobileTl.kill();
+
+        };
 
       }
-
     );
 
 
-    gsap.set(
+    /* =================================
+       CONTACT DESKTOP
+       > 800px
 
-      contactCtaTextTwo,
+       Mantém scrub + pin.
+    ================================= */
 
-      {
+    contactMM.add(
+      "(min-width: 801px)",
+      () => {
 
-        y: 120,
+        gsap.set(
 
-        opacity: 0
+          contactCtaTextOne,
+
+          {
+
+            y: 80,
+
+            opacity: 0
+
+          }
+
+        );
+
+
+        gsap.set(
+
+          contactCtaTextTwo,
+
+          {
+
+            y: 120,
+
+            opacity: 0
+
+          }
+
+        );
+
+
+        const contactDesktopTl =
+          gsap.timeline({
+
+            scrollTrigger: {
+
+              trigger:
+                contactCta,
+
+              start:
+                "top top",
+
+              end:
+                "+=300%",
+
+              pin:
+                true,
+
+              pinSpacing:
+                true,
+
+              scrub:
+                1,
+
+              anticipatePin:
+                1,
+
+              invalidateOnRefresh:
+                true
+
+            }
+
+          });
+
+
+        contactDesktopTl.fromTo(
+
+          contactCtaTextOne,
+
+          {
+
+            y: 80,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration:
+              1,
+
+            ease:
+              "power2.out"
+
+          }
+
+        );
+
+
+        contactDesktopTl.to(
+
+          contactCtaTextOne,
+
+          {
+
+            y: -120,
+
+            opacity: 0,
+
+            duration:
+              1,
+
+            ease:
+              "power2.in"
+
+          }
+
+        );
+
+
+        contactDesktopTl.fromTo(
+
+          contactCtaTextTwo,
+
+          {
+
+            y: 120,
+
+            opacity: 0
+
+          },
+
+          {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration:
+              1,
+
+            ease:
+              "power2.out"
+
+          },
+
+          "-=0.5"
+
+        );
+
+
+        contactDesktopTl.to(
+
+          contactCtaTextTwo,
+
+          {
+
+            y: -120,
+
+            opacity: 0,
+
+            duration:
+              1,
+
+            ease:
+              "power2.in"
+
+          }
+
+        );
+
+
+        return () => {
+
+          contactDesktopTl.kill();
+
+        };
 
       }
-
-    );
-
-
-    const contactCtaTl =
-      gsap.timeline({
-
-        scrollTrigger: {
-
-          trigger:
-            contactCta,
-
-          start:
-            "top top",
-
-          end:
-            "+=150%",
-
-          pin:
-            true,
-
-          pinSpacing:
-            true,
-
-          scrub:
-            1,
-
-          anticipatePin:
-            1,
-
-          invalidateOnRefresh:
-            true
-
-        }
-
-      });
-
-
-    contactCtaTl.fromTo(
-
-      contactCtaTextOne,
-
-      {
-
-        y: 80,
-
-        opacity: 0
-
-      },
-
-      {
-
-        y: 0,
-
-        opacity: 1,
-
-        duration: 1,
-
-        ease:
-          "power2.out"
-
-      }
-
-    );
-
-
-    contactCtaTl.to(
-
-      contactCtaTextOne,
-
-      {
-
-        y: -120,
-
-        opacity: 0,
-
-        duration: 1,
-
-        ease:
-          "power2.in"
-
-      }
-
-    );
-
-
-    contactCtaTl.fromTo(
-
-      contactCtaTextTwo,
-
-      {
-
-        y: 120,
-
-        opacity: 0
-
-      },
-
-      {
-
-        y: 0,
-
-        opacity: 1,
-
-        duration: 1,
-
-        ease:
-          "power2.out"
-
-      },
-
-      "-=0.5"
-
-    );
-
-
-    contactCtaTl.to(
-
-      contactCtaTextTwo,
-
-      {
-
-        y: -120,
-
-        opacity: 0,
-
-        duration: 1,
-
-        ease:
-          "power2.in"
-
-      }
-
     );
 
   }
@@ -1594,137 +2945,325 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
-    if (footerLine) {
-
-      const footerLineParent =
-        footerLine.parentElement;
-
-      const parentWidth =
-        footerLineParent.offsetWidth;
-
-      const lineWidth =
-        footerLine.offsetWidth;
+    const footerMM =
+      gsap.matchMedia();
 
 
-      gsap.set(
+    /* =================================
+       FOOTER MOBILE
+       <= 800px
 
-        footerLine,
+       Sem scrub.
+       Executa uma vez.
+    ================================= */
 
-        {
+    footerMM.add(
+      "(max-width: 800px)",
+      () => {
 
-          transformOrigin:
-            "center center",
+        if (footerLine) {
 
-          scaleX: 0,
+          const footerLineParent =
+            footerLine.parentElement;
 
-          x:
-            parentWidth / 2 -
-            lineWidth / 2
+          const parentWidth =
+            footerLineParent.offsetWidth;
 
-        }
-
-      );
-
-    }
-
-
-    if (
-      footerTextEls.length
-    ) {
-
-      gsap.set(
-
-        footerTextEls,
-
-        {
-
-          y: 60,
-
-          opacity: 0
-
-        }
-
-      );
-
-    }
+          const lineWidth =
+            footerLine.offsetWidth;
 
 
-    const footerTl =
-      gsap.timeline({
+          gsap.set(
 
-        scrollTrigger: {
+            footerLine,
 
-          trigger:
-            footer,
+            {
 
-          start:
-            "top 90%",
+              transformOrigin:
+                "center center",
 
-          end:
-            "top 20%",
+              scaleX: 0,
 
-          scrub:
-            1
+              x:
+                parentWidth / 2 -
+                lineWidth / 2
+
+            }
+
+          );
 
         }
 
-      });
+
+        if (
+          footerTextEls.length
+        ) {
+
+          gsap.set(
+
+            footerTextEls,
+
+            {
+
+              y: 35,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
 
 
-    if (footerLine) {
+        const footerMobileTl =
+          gsap.timeline({
 
-      footerTl.to(
+            scrollTrigger: {
 
-        footerLine,
+              trigger:
+                footer,
 
-        {
+              start:
+                "top 90%",
 
-          scaleX: 0.8,
+              toggleActions:
+                "play none none none",
 
-          x: 0,
+              once:
+                true
 
-          duration: 2,
+            }
 
-          ease:
-            "power2.out"
-
-        },
-
-        0
-
-      );
-
-    }
+          });
 
 
-    if (
-      footerTextEls.length
-    ) {
+        if (footerLine) {
 
-      footerTl.to(
+          footerMobileTl.to(
 
-        footerTextEls,
+            footerLine,
 
-        {
+            {
 
-          y: 0,
+              scaleX:
+                0.8,
 
-          opacity: 1,
+              x: 0,
 
-          duration: 1,
+              duration:
+                0.8,
 
-          ease:
-            "power3.out",
+              ease:
+                "power2.out"
 
-          stagger: 0.06
+            },
 
-        },
+            0
 
-        0
+          );
 
-      );
+        }
 
-    }
+
+        if (
+          footerTextEls.length
+        ) {
+
+          footerMobileTl.to(
+
+            footerTextEls,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                0.6,
+
+              ease:
+                "power3.out",
+
+              stagger:
+                0.04
+
+            },
+
+            0
+
+          );
+
+        }
+
+
+        return () => {
+
+          footerMobileTl.kill();
+
+        };
+
+      }
+    );
+
+
+    /* =================================
+       FOOTER DESKTOP
+       > 800px
+
+       Mantém scrub.
+    ================================= */
+
+    footerMM.add(
+      "(min-width: 801px)",
+      () => {
+
+        if (footerLine) {
+
+          const footerLineParent =
+            footerLine.parentElement;
+
+          const parentWidth =
+            footerLineParent.offsetWidth;
+
+          const lineWidth =
+            footerLine.offsetWidth;
+
+
+          gsap.set(
+
+            footerLine,
+
+            {
+
+              transformOrigin:
+                "center center",
+
+              scaleX: 0,
+
+              x:
+                parentWidth / 2 -
+                lineWidth / 2
+
+            }
+
+          );
+
+        }
+
+
+        if (
+          footerTextEls.length
+        ) {
+
+          gsap.set(
+
+            footerTextEls,
+
+            {
+
+              y: 60,
+
+              opacity: 0
+
+            }
+
+          );
+
+        }
+
+
+        const footerDesktopTl =
+          gsap.timeline({
+
+            scrollTrigger: {
+
+              trigger:
+                footer,
+
+              start:
+                "top 90%",
+
+              end:
+                "top 20%",
+
+              scrub:
+                1
+
+            }
+
+          });
+
+
+        if (footerLine) {
+
+          footerDesktopTl.to(
+
+            footerLine,
+
+            {
+
+              scaleX:
+                0.8,
+
+              x: 0,
+
+              duration:
+                2,
+
+              ease:
+                "power2.out"
+
+            },
+
+            0
+
+          );
+
+        }
+
+
+        if (
+          footerTextEls.length
+        ) {
+
+          footerDesktopTl.to(
+
+            footerTextEls,
+
+            {
+
+              y: 0,
+
+              opacity: 1,
+
+              duration:
+                1,
+
+              ease:
+                "power3.out",
+
+              stagger:
+                0.06
+
+            },
+
+            0
+
+          );
+
+        }
+
+
+        return () => {
+
+          footerDesktopTl.kill();
+
+        };
+
+      }
+    );
 
   }
 
@@ -1733,21 +3272,48 @@ document.addEventListener("DOMContentLoaded", () => {
      RESIZE
   ================================= */
 
+  let resizeTimer = null;
+
+
   window.addEventListener(
     "resize",
     () => {
 
-      ScrollTrigger.refresh();
+      clearTimeout(
+        resizeTimer
+      );
+
+
+      resizeTimer =
+        setTimeout(
+          () => {
+
+            ScrollTrigger.refresh();
+
+          },
+          200
+        );
 
     }
   );
 
 
+  /* =================================
+     LOAD
+  ================================= */
+
   window.addEventListener(
     "load",
     () => {
 
-      ScrollTrigger.refresh();
+      setTimeout(
+        () => {
+
+          ScrollTrigger.refresh();
+
+        },
+        100
+      );
 
     }
   );

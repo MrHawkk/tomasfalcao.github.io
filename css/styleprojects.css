@@ -1267,6 +1267,20 @@ a {
 
 @media (max-width: 800px) {
 
+  html,
+  body,
+  #smooth-wrapper,
+  #smooth-content,
+  .page-shell {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: hidden;
+
+  }
+
   .project-explanation {
 
     padding:
