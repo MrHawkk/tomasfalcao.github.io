@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             y: -30,
 
-            opacity: 0,
+            opacity: 1,
 
             duration: 0.5,
 
